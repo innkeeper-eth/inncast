@@ -2,7 +2,6 @@ import {
   FrameButton,
   FrameContainer,
   FrameImage,
-  FrameInput,
   FrameReducer,
   NextServerPageProps,
   getPreviousFrame,
@@ -14,6 +13,7 @@ import { DEBUG_HUB_OPTIONS } from "./debug/constants";
 import axios from "axios";
 import { InnEvent, State } from "../types";
 import { NextEvent } from "./NextEvent";
+import { Preview } from "./Preview";
 
 const initialState = { total_button_presses: 0 };
 
@@ -51,7 +51,6 @@ export default async function Home({
   const response = await axios.get<InnEvent[]>(
     "https://innkeeper.link/api/events/upcoming",
   );
-  // const response = { data: [teya] };
 
   if (frameMessage) {
     const {
@@ -70,7 +69,10 @@ export default async function Home({
   }
 
   // const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
-  const baseUrl = "https://inncast.vercel.app";
+  const isDev = process.env.NODE_ENV === "development";
+  const baseUrl = isDev
+    ? "http://localhost:3000"
+    : "https://inncast.vercel.app";
 
   const event = response?.data?.[0];
 
@@ -90,49 +92,11 @@ export default async function Home({
       >
         {/* <FrameImage src="https://framesjs.org/og.png" /> */}
         <FrameImage>
-          {state.total_button_presses <= 0 && (
-            <div
-              style={{
-                gap: "1rem",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "slategray",
-                color: "snow",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <p style={{ fontSize: "5rem" }}>When is the next show?</p>
-              <div style={{ display: "flex", gap: "2rem" }}>
-                <img
-                  src={baseUrl + "/dcl.svg"}
-                  width="4rem"
-                  height="4rem"
-                  style={{
-                    width: "4rem",
-                    height: "4rem",
-                  }}
-                />
-                <img
-                  src={baseUrl + "/LOGO_white.svg"}
-                  width="4rem"
-                  height="4rem"
-                  style={{
-                    width: "4rem",
-                    height: "4rem",
-                  }}
-                />
-              </div>
-            </div>
-          )}
-
+          {state.total_button_presses <= 0 && <Preview />}
           {state.total_button_presses > 0 && (
             <NextEvent nextEvent={event} state={state} />
           )}
         </FrameImage>
-        {/* <FrameInput text="put some text here" /> */}
         {state.total_button_presses === 0 ? (
           <FrameButton>Discover</FrameButton>
         ) : null}

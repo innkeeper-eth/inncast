@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   // without a title, warpcast won't validate your frame
-  title: "frames.js starter",
-  description: "...",
+  title: "Innkeeper: Upcoming Events",
+  description: "The next event at Innkeeper in Decentraland",
 };
 
 export default function RootLayout({
