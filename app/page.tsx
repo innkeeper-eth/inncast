@@ -13,6 +13,7 @@ import Link from "next/link";
 import { DEBUG_HUB_OPTIONS } from "./debug/constants";
 import axios from "axios";
 import { InnEvent, State } from "../types";
+import { NextEvent } from "./NextEvent";
 
 const initialState = { total_button_presses: 0 };
 
@@ -88,91 +89,60 @@ export default async function Home({
       >
         {/* <FrameImage src="https://framesjs.org/og.png" /> */}
         <FrameImage>
-          <div
-            style={{
-              ...background,
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              backgroundPosition: "cover",
-              width: "100%",
-              height: "100%",
-            }}
-          >
+          {state.total_button_presses <= 0 && (
             <div
               style={{
+                gap: "1rem",
                 display: "flex",
-                justifyContent: "space-between",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "slategray",
+                color: "snow",
+                width: "100%",
+                height: "100%",
               }}
             >
-              <div
-                style={{
-                  backgroundColor: "black",
-                  color: "antiquewhite",
-                  fontWeight: "bold",
-                  fontSize: "4rem",
-                  padding: "0.5rem 2rem",
-                  display: "flex",
-                  alignItems: "center",
-                  borderRadius: "0 0 1rem 0",
-                }}
-              >
-                {artist?.name}
-              </div>
-              <div
-                style={{
-                  borderRadius: "0 0 0 1rem",
-                  backgroundColor: "orange",
-                  padding: "0.5rem 2rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  fontSize: "3rem",
-                }}
-              >
+              <p style={{ fontSize: "5rem" }}>When is the next show?</p>
+              <div style={{ display: "flex", gap: "2rem" }}>
+                <img
+                  src={baseUrl + "/dcl.svg"}
+                  width="4rem"
+                  height="4rem"
+                  style={{
+                    width: "4rem",
+                    height: "4rem",
+                  }}
+                />
                 <img
                   src={baseUrl + "/LOGO_white.svg"}
-                  width="3rem"
-                  height="3rem"
-                  style={{ width: "3rem", height: "3rem" }}
+                  width="4rem"
+                  height="4rem"
+                  style={{
+                    width: "4rem",
+                    height: "4rem",
+                  }}
                 />
-                <p>The Inn (137,-2)</p>
               </div>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <p
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "1rem",
-                  borderRadius: "0 2rem 2rem 0",
-                }}
-              >
-                {relativeTime}
-              </p>
-              <img
-                src={baseUrl + "/dcl.svg"}
-                width="3rem"
-                height="3rem"
-                style={{ width: "5rem", height: "5rem", margin: "0 2rem" }}
-              />
-            </div>
-          </div>
+          )}
+
+          {state.total_button_presses > 0 && (
+            <NextEvent nextEvent={event} state={state} />
+          )}
         </FrameImage>
         {/* <FrameInput text="put some text here" /> */}
-        <FrameButton>Refresh</FrameButton>
-        <FrameButton
-          action="link"
-          target={`https://play.decentraland.org/?position=137%2C-2`}
-        >
-          Jump into Decentraland
-        </FrameButton>
+        {state.total_button_presses === 0 ? (
+          <FrameButton>Discover</FrameButton>
+        ) : null}
+        {state.total_button_presses !== 0 ? (
+          <FrameButton
+            action="link"
+            target={`https://play.decentraland.org/?position=137%2C-2`}
+          >
+            Jump into Decentraland
+          </FrameButton>
+        ) : null}
       </FrameContainer>
     </div>
   );

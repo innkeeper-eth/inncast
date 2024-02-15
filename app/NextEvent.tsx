@@ -1,12 +1,24 @@
 import { formatRelative } from "date-fns";
-import { InnEvent } from "../types";
+import { InnEvent, State } from "../types";
 
-export const NextEvent = (props: { nextEvent: InnEvent }) => {
+export const NextEvent = (props: { nextEvent?: InnEvent; state: State }) => {
+  const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
   const artist = props.nextEvent?.artists?.[0];
   const relativeTime = formatRelative(
     new Date(props.nextEvent?.date ?? "2020-01-01"),
     new Date(),
   );
+
+  const background =
+    artist?.images?.banner && props.state.total_button_presses > 0
+      ? {
+          backgroundImage: `url("${artist?.images?.banner}")`,
+          backgroundSize: "100% 100%",
+        }
+      : {
+          backgroundImage: `url("${baseUrl + "/stage.png"}")`,
+        };
+
   return (
     <div
       style={{
