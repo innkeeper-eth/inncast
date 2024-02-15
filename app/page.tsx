@@ -69,7 +69,8 @@ export default async function Home({
     } = frameMessage;
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
+  // const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
+  const baseUrl = "https://inncast.vercel.app";
 
   const event = response?.data?.[0];
 

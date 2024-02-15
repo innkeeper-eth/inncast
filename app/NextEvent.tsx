@@ -2,7 +2,7 @@ import { formatRelative } from "date-fns";
 import { InnEvent, State } from "../types";
 
 export const NextEvent = (props: { nextEvent?: InnEvent; state: State }) => {
-  const baseUrl = process.env.NEXT_PUBLIC_HOST || "http://localhost:3000";
+  const baseUrl = "https://inncast.vercel.app";
   const artist = props.nextEvent?.artists?.[0];
   const relativeTime = formatRelative(
     new Date(props.nextEvent?.date ?? "2020-01-01"),
