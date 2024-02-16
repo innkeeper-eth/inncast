@@ -12,20 +12,20 @@ export const NextEvent = (props: { nextEvent?: InnEvent; state: State }) => {
     new Date(),
   );
 
-  const background =
-    artist?.images?.banner && props.state.total_button_presses > 0
-      ? {
-          backgroundImage: `url("${artist?.images?.banner}")`,
-          backgroundSize: "100% 100%",
-        }
-      : {
-          backgroundImage: `url("${baseUrl + "/stage.png"}")`,
-        };
+  // const background =
+  //   artist?.images?.banner && props.state.total_button_presses > 0
+  //     ? {
+  //         backgroundImage: `url("${artist?.images?.banner}")`,
+  //         backgroundSize: "100% 100%",
+  //       }
+  //     : {
+  //         backgroundImage: `url("${baseUrl + "/stage.png"}")`,
+  //       };
 
   return (
     <div
       style={{
-        ...background,
+        backgroundImage: `url("${baseUrl + "/stage.png"}")`,
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
